@@ -2,7 +2,7 @@
 India’s Smart Digital Addressing
 
 From4 is a precise, shareable, and reliable digital location addressing system for India. 
-It divides the country into small 4m × 4m units, each with a unique alphanumeric code derived 
+It divides the country into small 10m × 10m units, each with a unique alphanumeric code derived 
 from latitude and longitude, making location identification simple and accurate.
 
 Features:
