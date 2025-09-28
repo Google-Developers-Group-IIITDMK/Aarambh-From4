@@ -141,6 +141,20 @@ html {
     text-shadow: 0 0 2px #fff;
 }
 
+/* Property sub div: black background, white text, subtle cyan glow */
+.properties-subdiv {
+    background: #000 !important;
+    color: #fff !important;
+    box-shadow: 0 0 4px #0ff, 0 1px 3px #0ff;
+}
+
+/* If you want headings and paragraphs inside to pop with subtle cyan glow: */
+.properties-subdiv h1,
+.properties-subdiv p {
+    color: #fff !important;
+    text-shadow: 0 0 2px #0ff;
+}
+
 /* Light Theme */
 .light {
     background-color: #f4f4f9;
