@@ -5,6 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>From4 Project</title>
   <link rel="icon" href="from4_landscape.png">
+  <style>
+    #map { height: 300px; margin: 10px 0; }
+    .saved-item { border: 1px solid #ccc; padding: 5px; margin: 5px 0; }
+    #notification-container { position: fixed; top: 20px; right: 20px; }
+    .notification { background: #333; color: #fff; padding: 10px; margin: 5px; border-radius: 5px; }
+  </style>
 </head>
 <body>
   <header>
@@ -23,6 +29,7 @@
     <div class="content-main">
       <div id="current_location" class="tab">
         <button onclick="fetchLocation()">Get Current Location</button>
+        <div id="map"></div>
       </div>
 
       <div id="search_location" class="tab">
@@ -56,5 +63,7 @@
     <button onclick="shareResult()">Share</button>
     <button onclick="save_result()">Save</button>
   </div>
+
+  <div id="notification-container"></div>
 </body>
 </html>
