@@ -1,5 +1,4 @@
 # Aarambh-From4
-![License](https://img.shields.io/badge/License-MIT-blue)
 ![Version](https://img.shields.io/badge/Version-1.0.0-green)
 ![Platform](https://img.shields.io/badge/Platform-Web-brightgreen)
 
@@ -48,13 +47,10 @@ It divides the country into small **10m × 10m units**, each assigned a unique *
 
 ## Example From4 Codes
 
-| Location    | From4 Code                 |
-|-------------|---------------------------|
-| Delhi       | `lotus-sunrise-river-peak` |
-| Bengaluru   | `mango-hill-lake-bridge`   |
-| Jaipur      | `rose-tree-path-valley`    |
-| Mumbai      | `ocean-sky-sand-fort`      |
-| Hyderabad   | `palm-river-garden-palace` |
+| Location    | From4 Code                 | Coordinates                  |
+|-------------|----------------------------| -----------------------------|
+| Taj Mahal   |`long-loud-glove-dune`      | 27.175010 ° N, 78.042101 ° E |
+
 
 ---
 
