@@ -1,11 +1,201 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+  <link rel="icon" type="image/png" href="../resources/from4_icon.png"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to From4</title>
+  <link rel="stylesheet" href="style/style.css">
 </head>
+<div id="loader">
+  <img src="resources/loading.gif" alt="Loading..." />
+</div>
+<style>
+  #loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+
+
+</style>
+
+<script>
+  window.addEventListener("load", function() {
+    document.getElementById("loader").style.display = "none";
+    document.getElementById("content").style.display = "block";
+  });
+</script>
+
+<div id="notification_area"></div>
 <body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-logo"><img src="../resources/from4_landscape.png" alt=""></div>
+    <ul class="nav-links">
+      <li><a href="#home"><span class="material-symbols-outlined">home</span>Home</a></li>
+      <li><a href="#what"><span class="material-symbols-outlined">info</span>About</a></li>
+      <li><a href="#services"><span class="material-symbols-outlined">build</span>Services</a></li>
+      <li><a href="#api" id="nav-api"><span class="material-symbols-outlined">code</span>API</a></li>
+    </ul>
+    <button id="theme-toggle" class="theme-toggle" aria-label="Toggle theme">🌙</button>
+  </nav>
+
+<button id="getLocationBtn" style="display: none;">Get Current Location</button>
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Home Section -->
+    <section id="home" class="home" aria-labelledby="home-title">
+      <header>
+        <h1 id="home-title">From4 Code Generator</h1>
+        <br>
+        <h2>Next Gen Addressing Platform for India</h2>
+        <br>
+        <p>Experience India’s next-generation digital addressing with a 4 - words code based on the Latitude and Longiude System. Our independent platform empowers precise, scalable, and privacy-focused location intelligence for seamless delivery, mapping, and logistics</p>
+      </header>
+      <br>
+      <button id="main_app_redirect_btn" class="spcl-btn" onclick="location.href='app.html'">FROM4 APP<span class="arrow">→</span></button>
+    </section>
+
+    <!-- Generator Section (hidden by default) -->
+    <section id="generator" class="generator hidden" aria-labelledby="generator-title">
+      <header>
+        <h2 id="generator-title">Generate Your Secure PIN</h2>
+      </header>
+
+      <div class="pin-display" id="pin-display" aria-live="polite">----</div>
+      <button id="generate-btn" class="btn-generate">Generate PIN</button>
+
+      <div class="controls">
+        <label for="pin-length">PIN Length:</label>
+        <select id="pin-length" aria-label="Select PIN length">
+          <option value="4">4 Digits</option>
+          <option value="6">6 Digits</option>
+          <option value="8">8 Digits</option>
+        </select>
+      </div>
+    </section>
+
+
+
+    <!-- About Section -->
+     <section id="properties" class="sections" aria-labelledby="properties-title">
+      <div class="properties-subdiv">
+        <h1>Precise</h1>
+        <br>
+        <p>Pinpoints every location accurately</p>
+      </div>
+      <div class="properties-subdiv">
+        <h1>Easy</h1>
+        <br>
+        <p>Simple to use and share with others</p>
+      </div>
+      <div class="properties-subdiv">
+        <h1>Trustworthy</h1>
+        <br>
+        <p>Permanent codes that never change</p>
+      </div>
+      <div class="properties-subdiv">
+        <h1>India-wide</h1>
+        <br>
+        <p>Covers every corner of the country</p>
+      </div>
+     </section>
+  
+    <section id="what" class="sections" aria-labelledby="what-title">
+      <header>
+        <h2 id="what-title">What is the From4 ?</h2>
+      </header>
+      <p>
+        FROM4 is India's standardized, geo-coded addressing system that divides the entire geographical territory of India into uniform 10-meter by 10-meter units.
+      </p>
+      <br><br>
+      <div class="what-subdiv" id="what_subdiv">
+        <div>
+          <h1>Precise Location Identification</h1><br>
+          Each 4m × 4m unit gets a unique 10-digit alphanumeric code derived from latitude and longitude coordinates, ensuring precise geographic identification across India.<br>
+          <br>
+          <h1>Digital Public Infrastructure</h1><br>
+          Serves as the foundation layer for "Address as a Service" (AaaS) across the country, enabling seamless delivery of public and private services.<br>
+          <br>
+          <h1>Privacy Respecting</h1><br>
+          DIGIPIN solely represents a location and does not store any personal information, ensuring complete privacy protection for users.<br>
+        </div>
+        <div>
+          <center><h1>Technical Specifications</h1></center><br>
+          <table>
+            <tr>
+              <th>Coverage Area</th>
+              <td>63.5°-99.5°E, 2.5°-38.5°N</td>
+            </tr>
+            <tr>
+              <th>Grid Size</th>
+              <td>10m × 10m (approx.)</td>
+            </tr>
+            <tr>
+              <th>Code Length</th>
+              <td>4 words</td>
+            </tr>
+            <tr>
+              <th>Symbol Used</th>
+              <td>English Dictionary Words</td>
+            </tr>
+            <tr>
+              <th>Coordinate System</th>
+              <td>EPSG:4326 (WGS84)</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="services" class="sections" aria-labelledby="services-title">
+      <header>
+        <h2 id="services-title">Services we offer</h2>
+      </header>
+      <p>Explore the various services offered by From4.</p>
+    </section>
+
+    <section id="api" class="sections" aria-labelledby="api-title">
+      <header>
+        <h2 id="api-title">Our API offerings</h2>
+      </header>
+      <b><p>Coming Soon!</p></b>
+      <p>Our From4 API will soon allow developers to integrate precise location identification into their apps and services. Using simple requests, you’ll be able to fetch From4 codes, coordinates, and location details programmatically — making location-based solutions faster and smarter</p>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+
+    <div class="footer-project">
+      <img src="resources/from4_logo.png" alt="">
+      <br>
+      <font class="footer-text">India’s Smart Digital Addressing — Precise, Shareable, Reliable.</font>
+      <br>
+      <font class="footer-copyright">&copy; 2025 From4 Generator <br> Developed by <span class="author">Ashwin & Animesh with collaboration with IIITDM Kurnool</span></font>
+    </div>
+
+    <div class="footer-links">
+      
+    </div>
+
     
+    
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="scripts/css.js"></script>
 </body>
 </html>
+
