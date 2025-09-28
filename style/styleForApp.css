@@ -2,25 +2,6 @@
     --ui-font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif; 
 }
 
-html{
-    width: 100%;
-    height: 100vh;
-}
-
-#map{
-    height: 100%;
-    width: 100%;
-    top: 0;
-    z-index: 1;
-}
-  
-
-body { 
-    height: 100vh;
-    font-family: var(--ui-font); 
-}
-
-
 *{
     padding: 0;
     margin: 0;
@@ -28,6 +9,28 @@ body {
     font-family: var(--ui-font);
     transition: .3s ease;
 }
+
+html, body {
+  height: 100%;   /* instead of 100vh */
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: var(--ui-font); 
+  overflow: hidden;  /* prevents scrollbars that shrink map */
+}
+
+#map {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 1000px;   /* full viewport */
+  width: 100%;
+  z-index: 1;
+}
+
+
+
+
 
 .header{
     background: rgba(255, 255, 255, 0.6); /* translucent white */
@@ -141,7 +144,13 @@ body {
 
 }
 
-
+#search_location{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+}
 
 #search_location input{
     margin: 5px;
@@ -150,6 +159,7 @@ body {
     border: 1px solid gray;
     width: calc(30% - 20px);
 }
+
 
 .result{
     background: rgba(255, 255, 255, 0.6); /* translucent white */

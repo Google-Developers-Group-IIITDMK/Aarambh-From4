@@ -93,9 +93,11 @@
       to { opacity: 0; transform: translateY(20px); }
     }
   </style>
+  
 </head>
 
 <body>
+  
   <!-- Notification Container -->
   <div id="notification-container"></div>
 
@@ -147,13 +149,13 @@
           <option value="2">Digipin</option>
         </select>
         <!-- Search by Coordinates -->
-        <div class="search_location_1" style="display: none;">
+        <div class="search_location_1">
           <input type="text" id="latitude" placeholder="Latitude" class="input-field"><br>
           <input type="text" id="longitude" placeholder="Longitude" class="input-field"><br>
           <button class="black-btn" onclick="getFrom4ByCoordinates()">Get From 4</button>
         </div>
         <!-- Search by Digipin -->
-        <div class="search_location_1" style="display: none;">
+        <div class="search_location_1">
           <input type="text" id="digipin" placeholder="Enter Digipin" class="input-field"><br>
           <button class="black-btn" onclick="digipinToLatLon(document.getElementById('digipin').value)">Get From 4</button>
         </div>
@@ -207,7 +209,7 @@
       tabs.forEach(id => {
         document.getElementById(id).style.display = (id === tabId) ? 'block' : 'none';
       });
-      notifyUser(`Switched to ${tabId.replace('_', ' ')} tab`, "info");
+      
     }
 
     // ✅ Dropdown selection
