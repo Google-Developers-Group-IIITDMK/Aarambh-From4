@@ -86,7 +86,7 @@ html {
 .neo-noir .navbar {
     background: #222 !important;
     color: #0ff !important;
-    box-shadow: 0 0 8px #ff00ff, 0 2px 20px #ff00ff;
+    box-shadow: 0 0 8px #ff00ff, 0 2px 5px #ff00ff;
     border: 1px solid #ff00ff;
 }
 
@@ -96,7 +96,7 @@ html {
     background-color: #ff00ff !important;
     color: #0ff !important;
     border: 2px solid #ff00ff !important;
-    box-shadow: 0 0 10px #ff00ff, 0 0 36px #ff00ff;
+    box-shadow: 0 0 5px #ff00ff, 0 0 8px #ff00ff;
 }
 
 /* Button hover: swap to cyan background, magenta text */
