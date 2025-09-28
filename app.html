@@ -1,69 +1,500 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Google Material Icons -->
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" />
+
+  <!-- External CSS -->
+  <link rel="stylesheet" href="style/styleForApp.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="resources/from4_icon.png"/>
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>From4 Project</title>
-  <link rel="icon" href="from4_landscape.png">
+  <title>Know your From4</title>
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+
   <style>
-    #map { height: 300px; margin: 10px 0; }
-    .saved-item { border: 1px solid #ccc; padding: 5px; margin: 5px 0; }
-    #notification-container { position: fixed; top: 20px; right: 20px; }
-    .notification { background: #333; color: #fff; padding: 10px; margin: 5px; border-radius: 5px; }
+    /* Map container */
+    #map {
+      height: 400px;
+      width: 100%;
+    }
+
+    /* Saved item style */
+    .saved-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 6px 0;
+      border-radius: 8px;
+      background: #f9f9f9;
+      font-family: "Inter", sans-serif;
+    }
+
+    .saved-item button {
+      background: #d9534f;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      margin-top: 6px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .saved-item button:hover {
+      background: #c9302c;
+    }
+
+    /* Notification Container */
+    #notification-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 9999;
+      font-family: "Inter", sans-serif;
+    }
+
+    /* Notification Base Style */
+    .notification {
+      backdrop-filter: blur(10px);           /* blur the content behind */
+      -webkit-backdrop-filter: blur(5px);
+      min-width: 250px;
+      padding: 14px 20px;
+      border-radius: 5px;
+      color: #fff;
+      font-size: 14px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeIn 0.4s forwards;
+    }
+
+    /* Notification Themes */
+    .success { background: #4CAF50; }
+    .error { background: #F44336; }
+    .info { background: #2196F3; }
+
+    /* Animations */
+    @keyframes fadeIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; transform: translateY(20px); }
+    }
   </style>
 </head>
+
 <body>
-  <header>
-    <img src="from4_landscape.png" alt="Logo" width="120">
-    <a href="#"><img src="home_icon.png" alt="Home" width="40"></a>
-  </header>
-
-  <div class="content">
-    <div class="content-menu">
-      <button onclick="openTab('current_location')">Current Location</button>
-      <button onclick="openTab('search_location')">Search Location</button>
-      <button onclick="openTab('decode_location')">Decode Location</button>
-      <button onclick="openTab('saved_location')">Saved Location</button>
-    </div>
-
-    <div class="content-main">
-      <div id="current_location" class="tab">
-        <button onclick="fetchLocation()">Get Current Location</button>
-        <div id="map"></div>
-      </div>
-
-      <div id="search_location" class="tab">
-        <label>Search using:</label>
-        <select id="searchOption">
-          <option value="coordinates">Coordinates</option>
-          <option value="digipin">DigiPin</option>
-        </select>
-        <div id="coordinateInput"></div>
-        <div id="digipinInput"></div>
-      </div>
-
-      <div id="decode_location" class="tab">
-        <input type="text" id="word1" placeholder="Word 1">
-        <input type="text" id="word2" placeholder="Word 2">
-        <input type="text" id="word3" placeholder="Word 3">
-        <input type="text" id="word4" placeholder="Word 4">
-        <button onclick="decodeFrom4()">Decode</button>
-      </div>
-
-      <div id="saved_location" class="tab">
-        <h3>Saved Results</h3>
-        <div id="savedList"></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="result">
-    <p id="theResult">The Result</p>
-    <button onclick="copyResult()">Copy</button>
-    <button onclick="shareResult()">Share</button>
-    <button onclick="save_result()">Save</button>
-  </div>
-
+  <!-- Notification Container -->
   <div id="notification-container"></div>
+
+  <!-- Map Section -->
+  <div id="map"></div>
+
+  <!-- Header -->
+  <div class="header">
+    <img src="resources/from4_landscape.png" alt="">
+    <span class="material-symbols-outlined" onclick="location.href='index.html'">home</span>
+  </div>
+
+  <!-- Content Section -->
+  <div class="content">
+    <!-- Menu -->
+    <div class="content-menu">
+      <div onclick="changeTab('current_location')">
+        <span class="material-symbols-outlined">location_on</span><br>
+        Current
+      </div>
+      <div onclick="changeTab('search_location')">
+        <span class="material-symbols-outlined">search</span><br>
+        Search
+      </div>
+      <div onclick="changeTab('decode_location')">
+        <span class="material-symbols-outlined">qr_code_scanner</span><br>
+        Decode
+      </div>
+      <div onclick="changeTab('saved_location')">
+        <span class="material-symbols-outlined">bookmark</span><br>
+        Saved
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-main">
+      <!-- Current Location Tab -->
+      <div class="content-info" id="current_location" style="display: none;">
+        Click the map or use the button below.
+        <br>
+        <button class="black-btn" onclick="fetchLocation()">Get Current Location</button>
+      </div>
+
+      <!-- Search Tab -->
+      <div class="content-info" id="search_location" style="display:block">
+        <select name="search-using" id="search_from_select" class="select-style" onchange="search_from_select_change(this.value)">
+          <option value="">Search Using</option>
+          <option value="1">Coordinates</option>
+          <option value="2">Digipin</option>
+        </select>
+        <!-- Search by Coordinates -->
+        <div class="search_location_1" style="display: none;">
+          <input type="text" id="latitude" placeholder="Latitude" class="input-field"><br>
+          <input type="text" id="longitude" placeholder="Longitude" class="input-field"><br>
+          <button class="black-btn" onclick="getFrom4ByCoordinates()">Get From 4</button>
+        </div>
+        <!-- Search by Digipin -->
+        <div class="search_location_1" style="display: none;">
+          <input type="text" id="digipin" placeholder="Enter Digipin" class="input-field"><br>
+          <button class="black-btn" onclick="digipinToLatLon(document.getElementById('digipin').value)">Get From 4</button>
+        </div>
+        <br>
+      </div>
+
+      <!-- Decode Tab -->
+      <div id="decode_location" class="content-info" style="display:none;">
+        <input type="text" id="from4_code_to_decode_word1" placeholder="Word 1" class="input-field-decode">
+        <input type="text" id="from4_code_to_decode_word2" placeholder="Word 2" class="input-field-decode">
+        <input type="text" id="from4_code_to_decode_word3" placeholder="Word 3" class="input-field-decode">
+        <input type="text" id="from4_code_to_decode_word4" placeholder="Word 4" class="input-field-decode">
+        <button class="black-btn" onclick="decodeFrom4()">Decode From4</button>
+      </div>
+
+      <!-- Saved Tab -->
+      <div class="content-info" id="saved_location" style="display: none;">
+        <div class="saved_data_display"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Result Section -->
+  <div class="result" id="result_section">
+    <p class="theResult" id="theResult">The Result</p>
+    <span class="material-symbols-outlined" onclick="copyResult()">content_copy</span>
+    <span class="material-symbols-outlined" onclick="shareResult()">share</span>
+    <span class="material-symbols-outlined" onclick="save_result()">bookmark</span>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    // ✅ Notification Function
+    function notifyUser(message, type = "info") {
+      const container = document.getElementById("notification-container");
+      const notif = document.createElement("div");
+      notif.classList.add("notification", type);
+      notif.innerText = message;
+      container.appendChild(notif);
+
+      // Auto remove after 3s
+      setTimeout(() => {
+        notif.style.animation = "fadeOut 0.4s forwards";
+        notif.addEventListener("animationend", () => notif.remove());
+      }, 3000);
+    }
+
+    // ✅ Tab Switching
+    function changeTab(tabId) {
+      const tabs = ['current_location', 'search_location', 'decode_location', 'saved_location'];
+      tabs.forEach(id => {
+        document.getElementById(id).style.display = (id === tabId) ? 'block' : 'none';
+      });
+      notifyUser(`Switched to ${tabId.replace('_', ' ')} tab`, "info");
+    }
+
+    // ✅ Dropdown selection
+    function search_from_select_change(value) {
+      document.querySelectorAll('.search_location_1').forEach(div => div.style.display = 'none');
+      if (value === "1") {
+        document.querySelectorAll('.search_location_1')[0].style.display = 'block';
+        notifyUser("Search by Coordinates selected", "info");
+      } else if (value === "2") {
+        document.querySelectorAll('.search_location_1')[1].style.display = 'block';
+        notifyUser("Search by Digipin selected", "info");
+      }
+    }
+  </script>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+  <!-- Main Map + From4 Script -->
+  <script type="module">
+    import { words } from './scripts/dict.js'; // Word list file must exist
+
+    const latRange = [2.5, 38.5];
+    const longRange = [63.5, 99.5];
+    const rows = 36, cols = 36;
+
+    // ✅ Leaflet map initialization
+    const map = L.map('map').setView([28.6139, 77.2090], 5);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors'
+    }).addTo(map);
+    const marker = L.marker([28.6139, 77.2090]).addTo(map);
+    map.removeControl(map.zoomControl);
+    L.control.zoom({ position: 'bottomright' }).addTo(map);
+
+    function getAddress(lat, lon) {
+  fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+    .then(res => res.json())
+    .then(data => {
+      let display_name = "Address not found";
+
+      if (data.address) {
+        // Pick landmark if available, else first part of display_name
+        const landmark = data.name || (data.display_name ? data.display_name.split(",")[0] : "");
+        // Pick one from city, town, village, district
+        const locality = data.address.city || data.address.town || data.address.village || data.address.district || "";
+        const state = data.address.state || "";
+
+        display_name = `${landmark}, ${locality}, ${state}`;
+      }
+
+      marker.setLatLng([lat, lon])
+        .bindPopup(display_name)
+        .openPopup();
+
+      notifyUser("Address fetched successfully", "success");
+    })
+    .catch(err => {
+      console.error("Error fetching address:", err);
+      notifyUser("Failed to fetch address", "error");
+    });
+}
+
+    // ✅ Convert Digipin (4-word From4 code) to Latitude & Longitude
+    function digipinToLatLon(digipin) {
+      const wordsArray = digipin.split("-").map(w => w.trim());
+      if (wordsArray.length !== 4) {
+        notifyUser("Digipin must have 4 words", "error");
+        return null;
+      }
+
+      // Convert words to indexes in words list
+      const indexes = wordsArray.map(word => {
+        const idx = words.indexOf(word) + 1; // +1 because blocks are 1-based
+        if (idx <= 0) {
+          notifyUser(`Invalid word: ${word}`, "error");
+          throw new Error(`Invalid word: ${word}`);
+        }
+        return idx;
+      });
+
+      // Step by step reverse block to get lat/lon
+      let l1 = reverseBlock(indexes[0], latRange, longRange, rows, cols);
+      let l2 = reverseBlock(indexes[1], l1.latRange, l1.longRange, rows, cols);
+      let l3 = reverseBlock(indexes[2], l2.latRange, l2.longRange, rows, cols);
+      let l4 = reverseBlock(indexes[3], l3.latRange, l3.longRange, 8, 8); // final block finer grid
+
+      // Approximate mid-point as final coordinates
+      const lat = (l4.latRange[0] + l4.latRange[1]) / 2;
+      const lon = (l4.longRange[0] + l4.longRange[1]) / 2;
+
+      notifyUser("Digipin converted to coordinates", "success");
+      return { lat, lon };
+    }
+
+    // ✅ Get current location
+    function fetchLocation() {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          pos => {
+            const lat = pos.coords.latitude;
+            const lon = pos.coords.longitude;
+            
+            map.panTo([lat, lon]);
+            map.setZoom(17);
+            marker.setLatLng([lat, lon]).bindPopup(getAddress(lat, lon)).openPopup();
+            notifyUser("Current location fetched successfully", "success");
+            showFrom4(lat, lon);
+          },
+          () => {
+            notifyUser("Failed to fetch location", "error");
+          }
+        );
+      } else {
+        notifyUser("Geolocation not supported by browser", "error");
+      }
+    }
+    window.fetchLocation = fetchLocation;
+
+    // ✅ Show From4 code
+    function showFrom4(lat, long) {
+      const result = getWords(lat, long);
+      const myFrom4 = result.join("-");
+      document.getElementById("theResult").innerText = myFrom4;
+      notifyUser("From4 code generated", "success");
+    }
+
+    // ✅ Divide coordinates into a block within a grid
+      function getBlock(lat, long, currentLatRange, currentLongRange, r, c) {
+        const latStep = (currentLatRange[1] - currentLatRange[0]) / r;
+        const longStep = (currentLongRange[1] - currentLongRange[0]) / c;
+
+        let row = Math.floor((lat - currentLatRange[0]) / latStep);
+        let col = Math.floor((long - currentLongRange[0]) / longStep);
+
+        // Clamp values within grid
+        row = Math.min(Math.max(row, 0), r - 1);
+        col = Math.min(Math.max(col, 0), c - 1);
+
+        return {
+          blockNum: row * c + col + 1,  // Block number
+          newLatRange: [
+            currentLatRange[0] + row * latStep,
+            currentLatRange[0] + (row + 1) * latStep
+          ],
+          newLongRange: [
+            currentLongRange[0] + col * longStep,
+            currentLongRange[0] + (col + 1) * longStep
+          ]
+        };
+      }
+
+
+    // ✅ Generate 4 words from coordinates
+    function getWords(lat, long) {
+      const l1 = getBlock(lat, long, latRange, longRange, rows, cols);
+      const word1 = words[(l1.blockNum - 1) % words.length];
+      const l2 = getBlock(lat, long, l1.newLatRange, l1.newLongRange, rows, cols);
+      const word2 = words[(l2.blockNum - 1) % words.length];
+      const l3 = getBlock(lat, long, l2.newLatRange, l2.newLongRange, rows, cols);
+      const word3 = words[(l3.blockNum - 1) % words.length];
+      const l4 = getBlock(lat, long, l3.newLatRange, l3.newLongRange, 8, 8);
+      const word4 = words[(l4.blockNum - 1) % words.length];
+      return [word1, word2, word3, word4];
+    }
+
+    // ✅ Reverse block finder
+    function reverseBlock(index, currentLatRange, currentLongRange, r, c) {
+      const latStep = (currentLatRange[1] - currentLatRange[0]) / r;
+      const longStep = (currentLongRange[1] - currentLongRange[0]) / c;
+      const blockNum = index - 1;
+      const row = Math.floor(blockNum / c);
+      const col = blockNum % c;
+      return {
+        latRange: [currentLatRange[0] + row * latStep, currentLatRange[0] + (row + 1) * latStep],
+        longRange: [currentLongRange[0] + col * longStep, currentLongRange[0] + (col + 1) * longStep]
+      };
+    }
+
+    // ✅ Decode From4
+    function decodeFrom4() {
+      const w1 = document.getElementById("from4_code_to_decode_word1").value.trim();
+      const w2 = document.getElementById("from4_code_to_decode_word2").value.trim();
+      const w3 = document.getElementById("from4_code_to_decode_word3").value.trim();
+      const w4 = document.getElementById("from4_code_to_decode_word4").value.trim();
+      if (!w1 || !w2 || !w3 || !w4) {
+        notifyUser("Please enter all 4 words!", "error");
+        return;
+      }
+      const i1 = words.indexOf(w1) + 1;
+      const i2 = words.indexOf(w2) + 1;
+      const i3 = words.indexOf(w3) + 1;
+      const i4 = words.indexOf(w4) + 1;
+      if (i1 <= 0 || i2 <= 0 || i3 <= 0 || i4 <= 0) {
+        notifyUser("Invalid words entered!", "error");
+        return;
+      }
+
+      const l1 = reverseBlock(i1, latRange, longRange, rows, cols);
+      const l2 = reverseBlock(i2, l1.latRange, l1.longRange, rows, cols);
+      const l3 = reverseBlock(i3, l2.latRange, l2.longRange, rows, cols);
+      const l4 = reverseBlock(i4, l3.latRange, l3.longRange, 8, 8);
+      const lat = (l4.latRange[0] + l4.latRange[1]) / 2;
+      const lon = (l4.longRange[0] + l4.longRange[1]) / 2;
+
+      document.getElementById("theResult").innerText = `${lat.toFixed(6)} ° N, ${lon.toFixed(6)} ° E`;
+      marker.setLatLng([lat, lon]).bindPopup(getAddress(lat, lon)).openPopup();
+      map.panTo([lat, lon]);
+      map.setZoom(17);
+      notifyUser("From4 code decoded successfully", "success");
+    }
+    window.decodeFrom4 = decodeFrom4;
+  </script>
+
+  <!-- Local Storage + Result Actions -->
+  <script>
+    // ✅ Save Result
+    function save_result() {
+      let theResult = document.getElementById("theResult").innerText;
+      if (!theResult || theResult === "The Result") return notifyUser("Nothing to save", "error");
+
+      let saved_data;
+      try { saved_data = JSON.parse(localStorage.getItem("saved_data")) || []; } 
+      catch (e) { saved_data = []; }
+
+      saved_data.push({ value: theResult, date: new Date().toLocaleString() });
+      localStorage.setItem("saved_data", JSON.stringify(saved_data));
+      render_saved_data();
+      notifyUser("Result saved successfully", "success");
+    }
+
+    // ✅ Delete Saved Entry
+    function delete_saved(index) {
+      let saved_data = JSON.parse(localStorage.getItem("saved_data")) || [];
+      saved_data.splice(index, 1);
+      localStorage.setItem("saved_data", JSON.stringify(saved_data));
+      render_saved_data();
+      notifyUser("Saved entry deleted", "info");
+    }
+
+    // ✅ Render Saved Data
+    function render_saved_data() {
+      let saved_data = JSON.parse(localStorage.getItem("saved_data")) || [];
+      let container = document.querySelector(".saved_data_display");
+      container.innerHTML = "";
+      if (saved_data.length === 0) { container.innerHTML = "<p>No saved data</p>"; return; }
+      saved_data.forEach((item, index) => {
+        let div = document.createElement("div");
+        div.className = "saved-item";
+        div.innerHTML = `
+          <p><b>${item.value}</b></p>
+          <small>${item.date}</small><br>
+          <button onclick="delete_saved(${index})"><span class="material-symbols-outlined">delete</span></button>
+        `;
+        container.appendChild(div);
+      });
+    }
+
+    // ✅ Copy Result
+    function copyResult() {
+      const resultText = document.getElementById("theResult").innerText;
+      navigator.clipboard.writeText(resultText).then(() => {
+        notifyUser("Result copied to clipboard", "success");
+      }).catch(err => {
+        notifyUser("Failed to copy text", "error");
+      });
+    }
+
+    // ✅ Share Result
+    function shareResult() {
+      const resultText = document.getElementById("theResult").innerText;
+      const shareText = `Hey my From4 Code is:\n${resultText}\n\nFind yours at from4.vercel.app`;
+      if (navigator.share) {
+        navigator.share({ title: 'From4 Result', text: shareText })
+          .then(() => notifyUser("Shared successfully", "success"))
+          .catch(err => notifyUser("Share failed", "error"));
+      } else {
+        notifyUser("Web Share API not supported", "error");
+      }
+    }
+
+    // ✅ Auto-load saved data
+    window.onload = function () {
+      render_saved_data();
+    };
+
+    
+  </script>
 </body>
 </html>
