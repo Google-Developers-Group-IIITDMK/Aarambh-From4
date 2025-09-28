@@ -151,12 +151,20 @@ html, body {
     padding: 10px;
 }
 
+#search_location div{
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: space-between;
+}
+
+
 #search_location input{
-    margin: 5px;
+    width: calc(50% - 20px);
+    background: transparent;
     padding: 10px;
     border-radius: 5px;
     border: 1px solid gray;
-    width: calc(30% - 20px);
 }
 
 

@@ -166,7 +166,12 @@
 
       <!-- Search Tab -->
       <div class="content-info" id="search_location" style="display:none">
+        <div>
+          <input type="text" id="latitude" placeholder="Latitude" class="input-field"><br>
+          <input type="text" id="longitude" placeholder="Longitude" class="input-field"><br>
+        </div>
         
+        <button class="black-btn" onclick="coordinatesToFrom4()">Get From4</button>
       </div>
 
       <!-- Decode Tab -->
@@ -324,9 +329,9 @@
         notifyUser("Geolocation not supported by browser", "error");
       }
     }
-    window.fetchLocation = fetchLocation;
+    
 
-    // ✅ Show From4 code
+    // Show From4 code
     function showFrom4(lat, long) {
       const result = getWords(lat, long);
       const myFrom4 = result.join("-");
@@ -334,7 +339,19 @@
       notifyUser("From4 code generated", "success");
     }
 
-    // ✅ Divide coordinates into a block within a grid
+    function coordinatesToFrom4() {
+      const lat = parseFloat(document.getElementById("latitude").value);
+      const lon = parseFloat(document.getElementById("longitude").value);
+      if (isNaN(lat) || isNaN(lon)) { notifyUser("Enter valid coordinates", "error"); return; }
+      map.panTo([lat, lon]); map.setZoom(17);
+      marker.setLatLng([lat, lon]).bindPopup(getAddress(lat, lon)).openPopup();
+      showFrom4(lat, lon);
+    }
+
+    window.coordinatesToFrom4 = coordinatesToFrom4;
+    window.fetchLocation = fetchLocation;
+
+    // Divide coordinates into a block within a grid
       function getBlock(lat, long, currentLatRange, currentLongRange, r, c) {
         const latStep = (currentLatRange[1] - currentLatRange[0]) / r;
         const longStep = (currentLongRange[1] - currentLongRange[0]) / c;
@@ -360,7 +377,7 @@
       }
 
 
-    // ✅ Generate 4 words from coordinates
+    // Generate 4 words from coordinates
     function getWords(lat, long) {
       const l1 = getBlock(lat, long, latRange, longRange, rows, cols);
       const word1 = words[(l1.blockNum - 1) % words.length];
@@ -373,7 +390,7 @@
       return [word1, word2, word3, word4];
     }
 
-    // ✅ Reverse block finder
+    // Reverse block finder
     function reverseBlock(index, currentLatRange, currentLongRange, r, c) {
       const latStep = (currentLatRange[1] - currentLatRange[0]) / r;
       const longStep = (currentLongRange[1] - currentLongRange[0]) / c;
@@ -386,7 +403,7 @@
       };
     }
 
-    // ✅ Decode From4
+    // Decode From4
     function decodeFrom4() {
       const w1 = document.getElementById("from4_code_to_decode_word1").value.trim();
       const w2 = document.getElementById("from4_code_to_decode_word2").value.trim();
