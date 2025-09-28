@@ -204,6 +204,7 @@ html, body {
     text-align: center;
     font-size: 1rem;
     font-weight: bold;
+    background: transparent;
 }
 
 .content-info{
