@@ -21,11 +21,40 @@
     </div>
 
     <div class="content-main">
-      <div id="current_location" class="tab">Current location feature here</div>
-      <div id="search_location" class="tab">Search location feature here</div>
-      <div id="decode_location" class="tab">Decode location feature here</div>
-      <div id="saved_location" class="tab">Saved location feature here</div>
+      <div id="current_location" class="tab">
+        <button onclick="fetchLocation()">Get Current Location</button>
+      </div>
+
+      <div id="search_location" class="tab">
+        <label>Search using:</label>
+        <select id="searchOption">
+          <option value="coordinates">Coordinates</option>
+          <option value="digipin">DigiPin</option>
+        </select>
+        <div id="coordinateInput"></div>
+        <div id="digipinInput"></div>
+      </div>
+
+      <div id="decode_location" class="tab">
+        <input type="text" id="word1" placeholder="Word 1">
+        <input type="text" id="word2" placeholder="Word 2">
+        <input type="text" id="word3" placeholder="Word 3">
+        <input type="text" id="word4" placeholder="Word 4">
+        <button onclick="decodeFrom4()">Decode</button>
+      </div>
+
+      <div id="saved_location" class="tab">
+        <h3>Saved Results</h3>
+        <div id="savedList"></div>
+      </div>
     </div>
+  </div>
+
+  <div class="result">
+    <p id="theResult">The Result</p>
+    <button onclick="copyResult()">Copy</button>
+    <button onclick="shareResult()">Share</button>
+    <button onclick="save_result()">Save</button>
   </div>
 </body>
 </html>
