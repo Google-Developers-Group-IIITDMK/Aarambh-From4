@@ -68,7 +68,7 @@ html {
 /* Enhanced Neo-Noir: Cyan Text, Magenta Boxes */
 
 /* All text: cyan with glow */
-.neo-noir,
+/* .neo-noir,
 .neo-noir h1, 
 .neo-noir h2, 
 .neo-noir h3, 
@@ -77,7 +77,7 @@ html {
 .neo-noir h6, 
 
 
-} 
+}  */
 
 /* All major containers: magenta box-shadow and subtle border */
 .neo-noir .sections,
@@ -675,6 +675,11 @@ footer > div {  /* applies to all direct footer children */
         text-transform: uppercase;
         letter-spacing: 1px;
         transition: 0.3s;
+    }
+
+    .spcl-btn{
+        width: 80%;
+        text-align: center;
     }
     
 }
