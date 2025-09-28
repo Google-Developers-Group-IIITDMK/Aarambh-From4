@@ -72,7 +72,6 @@ html, body {
     bottom: 20px;
     left: 50%;              /* move to horizontal center */
     transform: translateX(-50%); /* shift back by half width */
-    
     width: 50%;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0,0,0,0.2);
@@ -216,6 +215,47 @@ html, body {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
+}
+
+@media (max-width: 768px) {
+    .content {
+        width: 90%;
+        font-size: 1rem;
+    }
+
+    .select-style {
+        width: 50%;
+        min-width: 150px;
+    }
+
+    #search_location input {
+        width: calc(50% - 20px);
+    }
+
+    .input-field-decode {
+        width: calc(50% - 20px);
+        min-width: 100px;
+    }
+
+    .result{
+        top: calc(100% - 270px);
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 0.8rem;
+        height: 60px;
+        width: 90%;
+        justify-content: center;
+    }
+
+    .result span{
+        font-size: 1rem;
+    }
+
+    .black-btn{
+        padding: 8px;
+        font-size: 0.8rem;  
+    }
+    
 }
 
 

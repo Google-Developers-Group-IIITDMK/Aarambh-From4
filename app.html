@@ -96,7 +96,7 @@
   
 </head>
 
-<body>
+<body onload="changeTab('current_location')">
   
   <!-- Notification Container -->
   <div id="notification-container"></div>
@@ -135,27 +135,27 @@
     <!-- Main Content -->
     <div class="content-main">
       <!-- Current Location Tab -->
-      <div class="content-info" id="current_location" style="display: none;">
+      <div class="content-info" id="current_location">
         Click the map or use the button below.
         <br>
         <button class="black-btn" onclick="fetchLocation()">Get Current Location</button>
       </div>
 
       <!-- Search Tab -->
-      <div class="content-info" id="search_location" style="display:block">
+      <div class="content-info" id="search_location" style="display:none">
         <select name="search-using" id="search_from_select" class="select-style" onchange="search_from_select_change(this.value)">
           <option value="">Search Using</option>
           <option value="1">Coordinates</option>
           <option value="2">Digipin</option>
         </select>
         <!-- Search by Coordinates -->
-        <div class="search_location_1">
+        <div class="search_location_1" style="display: none;">
           <input type="text" id="latitude" placeholder="Latitude" class="input-field"><br>
           <input type="text" id="longitude" placeholder="Longitude" class="input-field"><br>
           <button class="black-btn" onclick="getFrom4ByCoordinates()">Get From 4</button>
         </div>
         <!-- Search by Digipin -->
-        <div class="search_location_1">
+        <div class="search_location_1" style="display: none;">
           <input type="text" id="digipin" placeholder="Enter Digipin" class="input-field"><br>
           <button class="black-btn" onclick="digipinToLatLon(document.getElementById('digipin').value)">Get From 4</button>
         </div>
